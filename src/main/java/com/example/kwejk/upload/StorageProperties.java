@@ -4,7 +4,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
 @ConfigurationProperties("storage")
-@Component
+//@Component
 public class StorageProperties {
 
     /**
