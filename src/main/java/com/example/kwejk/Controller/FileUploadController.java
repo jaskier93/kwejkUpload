@@ -1,9 +1,12 @@
 package com.example.kwejk.Controller;
 
 import java.io.IOException;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
+import com.example.kwejk.services.GifService;
 import com.example.kwejk.upload.StorageService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -21,25 +24,38 @@ import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBui
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.kwejk.upload.StorageFileNotFoundException;
-import com.example.kwejk.upload.StorageService;
 
+@Slf4j
 @Controller
 public class FileUploadController {
 
     private final StorageService storageService;
+    private final GifService gifService;
 
     @Autowired
-    public FileUploadController(StorageService storageService) {
+    public FileUploadController(StorageService storageService, GifService gifService) {
         this.storageService = storageService;
+        this.gifService = gifService;
     }
 
-    @GetMapping("/")
+    @GetMapping("/uploadForm")
     public String listUploadedFiles(Model model) throws IOException {
+
+//        Predicate predicate =
 
         model.addAttribute("files", storageService.loadAll().map(
                 path -> MvcUriComponentsBuilder.fromMethodName(FileUploadController.class,
-                        "serveFile", path.getFileName().toString()).build().toString())
+                        "serveFile", path.getFileName()
+                                .toString())
+                        .build()
+                        .toString())
                 .collect(Collectors.toList()));
+
+
+
+        log.info("file was uploaded.");
+
+//        gifService.save(storageService.load(file.getOriginalFilename()).toString(), 1);
 
         return "uploadForm";
     }
@@ -53,7 +69,7 @@ public class FileUploadController {
                 "attachment; filename=\"" + file.getFilename() + "\"").body(file);
     }
 
-    @PostMapping("/")
+    @PostMapping("/uploadForm")
     public String handleFileUpload(@RequestParam("file") MultipartFile file,
                                    RedirectAttributes redirectAttributes) {
 
@@ -61,7 +77,9 @@ public class FileUploadController {
         redirectAttributes.addFlashAttribute("message",
                 "You successfully uploaded " + file.getOriginalFilename() + "!");
 
-        return "redirect:/";
+
+
+        return "redirect:/uploadForm";
     }
 
     @ExceptionHandler(StorageFileNotFoundException.class)

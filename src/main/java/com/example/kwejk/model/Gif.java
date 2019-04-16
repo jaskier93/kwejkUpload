@@ -1,11 +1,22 @@
 package com.example.kwejk.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.time.LocalDateTime;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Gif {
 
-    String name;
-    String username;
-    Boolean favorite;
-    int categoryId;
+    private String name;
+    private String username;
+    private Boolean favorite;
+    private int categoryId;
+    private LocalDateTime dateOfUpload;
+    private String url;
 
     public Gif(String name, String username, Boolean favorite, int categoryId) {
         this.name = name;
@@ -14,38 +25,17 @@ public class Gif {
         this.categoryId = categoryId;
     }
 
-    public String getName() {
-        return name;
+    @Override
+    public String toString() {
+        return "Gif{" +
+                "name='" + name + '\'' +
+                ", username='" + username + '\'' +
+                ", favorite=" + favorite +
+                ", categoryId=" + categoryId +
+                ", dateOfUpload=" + dateOfUpload +
+                ", url='" + url + '\'' +
+                '}';
     }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public Boolean getFavorite() {
-        return favorite;
-    }
-
-    public void setFavorite(Boolean favorite) {
-        this.favorite = favorite;
-    }
-
-    public int getCategoryId() {
-        return categoryId;
-    }
-
-    public void setCategoryId(int categoryId) {
-        this.categoryId = categoryId;
-    }
-
 }
 
 

@@ -1,4 +1,4 @@
-package com.example.kwejk.upload;
+package com.example.kwejk.services;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -9,6 +9,10 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.stream.Stream;
 
+import com.example.kwejk.upload.StorageException;
+import com.example.kwejk.upload.StorageFileNotFoundException;
+import com.example.kwejk.upload.StorageProperties;
+import com.example.kwejk.upload.StorageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
